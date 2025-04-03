@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formule de Prix - Fidelio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            width: 300px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .input-container {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            border-color: #007BFF;
+            outline: none;
+        }
+
+        .text-field {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Fidelio</br>Formule de Prix</h1>
+        <div class="input-container">
+            <label for="cost">Coût de base:</label>
+            <input type="number" id="cost" placeholder="Enter cost">
+        </div>
+        <div class="input-container">
+            <label for="price">Prix désiré:</label>
+            <input type="number" id="price" placeholder="Enter price">
+        </div>
+        <div class="input-container">
+            <label for="value">Formule:</label>
+            <input type="text" id="value" class="text-field" placeholder="" readonly>
+        </div>
+    </div>
+
+    <script>
+        // Get the input fields
+        const costField = document.getElementById("cost");
+        const priceField = document.getElementById("price");
+        const valueField = document.getElementById("value");
+
+        // Function to calculate the value based on the formula
+        function calculateValues() {
+            const cost = parseFloat(costField.value);
+            const price = parseFloat(priceField.value);
+
+            // Check if the inputs are invalid (cost <= 0, price <= 0, or price < cost)
+            if (isNaN(cost) || cost <= 0 || isNaN(price) || price <= 0 || price < cost) {
+                valueField.value = "";
+                return; // If invalid, show "Invalid" and stop further calculation
+            }
+
+            // Calculate the value (percentage) based on the formula: value = (cost * 100) / price
+            const value = (cost * 100) / price;
+
+            // Format the value as ZPX_000.00 with two decimal places
+            const formattedValue = `ZPX_${value.toFixed(2).padStart(6, '0')}`;
+
+            // Set the formatted value in the text field
+            valueField.value = formattedValue;
+        }
+
+        // Add event listeners to both cost and price fields
+        costField.addEventListener("input", calculateValues);
+        priceField.addEventListener("input", calculateValues);
+    </script>
+</body>
+</html>
